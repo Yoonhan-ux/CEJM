@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="fr"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>CEJM – BTS MCO</title>
+<link rel="icon" type="image/png" href="icons/favicon-96.png">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+<link rel="manifest" href="manifest.webmanifest">
+<meta name="apple-mobile-web-app-title" content="CEJM">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="theme-color" content="#b5446e">
+
+
+<style>
+:root{--bg:#faf7f5;--fg:#2a2326;--card:#fff;--ac:#b5446e;--mut:#7a6d72;--ok:#2e8b57;--ko:#c0392b;--bd:#e6dde1;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#1a1517;--fg:#f1e9ec;--card:#261f22;--ac:#e07aa0;--mut:#a89aa0;--bd:#3a3034}}
+*{box-sizing:border-box}html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:var(--bg);color:var(--fg);font:16px/1.5 system-ui,-apple-system,"Segoe UI",sans-serif;max-width:640px;margin:auto;padding:14px}
+h1{font-size:20px;margin:4px 0 12px}
+.row{display:flex;gap:8px;margin-bottom:10px}
+button{font:inherit;border:1px solid var(--bd);background:var(--card);color:var(--fg);border-radius:12px;padding:10px 12px;cursor:pointer;flex:1}
+button.on{background:var(--ac);color:#fff;border-color:var(--ac)}
+.card{background:var(--card);border:1px solid var(--bd);border-radius:16px;padding:16px;margin-bottom:12px}
+.tag{font-size:12px;color:var(--ac);font-weight:600;text-transform:uppercase;letter-spacing:.04em}
+.fc{min-height:160px;display:flex;flex-direction:column;justify-content:center;text-align:center;cursor:pointer}
+.opt{display:block;width:100%;text-align:left;margin-bottom:8px}
+.opt.ok{background:var(--ok);color:#fff;border-color:var(--ok)}.opt.ko{background:var(--ko);color:#fff;border-color:var(--ko)}
+.mut{color:var(--mut);font-size:14px}
+summary{color:var(--ac);cursor:pointer;font-weight:600}
+footer{font-size:12px;color:var(--mut);margin-top:18px}
+</style></head><body>
+<h1>CEJM · BTS MCO</h1>
+<div class="row" id="yr"></div>
+<div class="row" id="md"></div>
+<div id="app"></div>
+<footer>Contenu fondé sur le programme officiel de CEJM (arrêté du 15 février 2018, annexe I : six thèmes, épreuve E3 écrite de 4 h). Le programme officiel ne fixe pas la répartition par année : celle-ci suit le découpage habituel des manuels (thèmes 1–3 en 1re année, 4–6 en 2e). Vérifie toujours avec le cours de ton professeur et les textes sur Légifrance.</footer>
+<script>
+const D={1:{n:[
+["Thème 1","Agents économiques","Ménages, entreprises, banques et État échangent des biens, des services et de la monnaie (flux réels et flux monétaires). Le marché confronte offre et demande pour fixer le prix."],
+["Thème 1","Formation et validité du contrat","Un contrat se forme par une offre et son acceptation. Il est valable s’il y a consentement, capacité et contenu licite et certain (art. 1128 C. civ.). Les vices du consentement sont l’erreur, le dol et la violence."],
+["Thème 2","Rôle de l’État et politiques économiques","L’État a trois fonctions : allocation, redistribution, régulation. Politiques conjoncturelles (budgétaire, monétaire) à court terme ; politiques structurelles à long terme. Déséquilibres : inflation, chômage."],
+["Thème 2","Concurrence et propriété industrielle","Le droit de la concurrence sanctionne ententes et abus de position dominante (Autorité de la concurrence, AAI). Le brevet protège une invention 20 ans ; la marque, 10 ans renouvelables."],
+["Thème 3","Structures juridiques","Entreprise individuelle ; sociétés : EURL/SARL (responsabilité limitée aux apports), SA, SAS (grande liberté statutaire). Économie sociale et solidaire : coopératives, mutuelles."],
+["Thème 3","Financement et responsabilité","Cycle d’exploitation (activité courante) vs cycle d’investissement (biens durables). Bilan = photo du patrimoine ; compte de résultat = produits − charges. Responsabilité civile : contractuelle (art. 1231-1) ou délictuelle (art. 1240)."]],
+f:[["Qu’est-ce qu’une externalité ?","Effet d’une activité sur un tiers sans contrepartie marchande (positive ou négative)."],
+["Asymétrie d’information ?","Un acteur dispose de plus d’information que l’autre dans l’échange."],
+["Barrière à l’entrée ?","Obstacle qui limite l’arrivée de nouveaux concurrents (capital, brevets, réglementation…)."],
+["Qui sont les parties prenantes ?","Acteurs influençant l’entreprise ou affectés par elle : salariés, clients, fournisseurs, actionnaires, État…"],
+["Les 3 conditions de validité du contrat ?","Consentement, capacité, contenu licite et certain."],
+["Que signifie PESTEL ?","Facteurs politiques, économiques, socioculturels, technologiques, environnementaux, légaux."],
+["Durée d’un brevet ?","20 ans."],
+["Impartition (« faire faire ») ?","Confier une activité à un prestataire extérieur plutôt que la réaliser soi-même."],
+["Conditions de la responsabilité délictuelle ?","Faute, dommage, lien de causalité (art. 1240 C. civ.)."]],
+z:[["Une usine pollue une rivière sans indemniser les riverains. C’est :",["Une externalité positive","Une externalité négative","Une barrière à l’entrée","Une asymétrie d’information"],1,"Elle impose un coût à des tiers sans compensation : externalité négative."],
+["Lequel n’est pas un vice du consentement ?",["L’erreur","Le dol","L’incapacité","La violence"],2,"L’incapacité touche la capacité, pas le consentement."],
+["Une hausse des taux directeurs est une politique :",["Budgétaire","Monétaire","Structurelle de l’emploi","Fiscale"],1,"Les taux relèvent de la politique monétaire (conjoncturelle)."],
+["Durée de protection d’une marque, renouvelable :",["5 ans","10 ans","20 ans","50 ans"],1,"10 ans, renouvelables indéfiniment (INPI)."],
+["Dans une SARL, la responsabilité des associés est :",["Illimitée","Limitée à leurs apports","Solidaire","Nulle"],1,"Responsabilité limitée aux apports."],
+["Un client assigne son fournisseur pour livraison non exécutée. Responsabilité :",["Délictuelle","Contractuelle","Pénale uniquement","Aucune"],1,"Inexécution d’un contrat : responsabilité contractuelle."]]},
+2:{n:[
+["Thème 4","Numérique et économie","Place de marché numérique, échanges B to B, B to C, C to C, B to G. Externalités de réseau : un service vaut plus quand il a plus d’utilisateurs. Essor de l’économie collaborative."],
+["Thème 4","Droit du numérique","Le RGPD protège les données personnelles ; la CNIL contrôle son application. La preuve électronique et la signature électronique sont admises. Le droit d’auteur protège les actifs immatériels."],
+["Thème 5","Contrat de travail et rupture","CDI = contrat de droit commun ; CDD limité à des cas précis. Ruptures : démission, licenciement (cause réelle et sérieuse), rupture conventionnelle (accord homologué), fin de CDD."],
+["Thème 5","Marché du travail et motivation","Offre et demande de travail, segmentation, politique de l’emploi. GPEC : anticiper emplois et compétences. Motivation : Maslow (besoins hiérarchisés), Herzberg (facteurs d’hygiène vs de motivation)."],
+["Thème 6","Diagnostic stratégique","Diagnostic externe (macro-environnement, concurrence : opportunités et menaces) + interne (ressources, compétences : forces et faiblesses). Synthèse en matrice SWOT/FFOM."],
+["Thème 6","Choix et croissance","Domaines d’activité stratégiques (DAS). Options : spécialisation, diversification… Croissance interne (organique), externe (acquisition, fusion) ou conjointe (alliance, partenariat)."]],
+f:[["Que sont les externalités de réseau ?","L’utilité d’un bien ou service augmente avec le nombre de ses utilisateurs."],
+["Rôle de la CNIL ?","Autorité qui veille à la protection des données personnelles (RGPD, loi Informatique et Libertés)."],
+["Qu’est-ce que le RGPD ?","Règlement européen de 2016, applicable depuis 2018, sur la protection des données personnelles."],
+["Rupture conventionnelle ?","Rupture d’un CDI d’un commun accord, homologuée par l’administration."],
+["Que signifie GPEC ?","Gestion prévisionnelle des emplois et des compétences."],
+["Facteurs de motivation selon Herzberg ?","Reconnaissance, responsabilités, accomplissement ; les facteurs d’hygiène (salaire, conditions) évitent l’insatisfaction."],
+["Que signifie SWOT / FFOM ?","Forces, Faiblesses (interne) ; Opportunités, Menaces (externe)."],
+["Croissance externe ?","Développement par acquisition ou fusion d’autres entreprises."],
+["Croissance conjointe ?","Développement avec des partenaires : alliance, joint-venture, partenariat."]],
+z:[["Une plateforme où vendeurs et acheteurs particuliers échangent relève du :",["B to B","C to C","B to G","Aucun"],1,"Consumer to Consumer."],
+["Qui contrôle la protection des données personnelles en France ?",["L’INPI","L’Autorité de la concurrence","La CNIL","L’URSSAF"],2,"La CNIL est l’autorité compétente."],
+["Une rupture d’un commun accord d’un CDI est :",["Une démission","Un licenciement","Une rupture conventionnelle","Une retraite"],2,"Elle nécessite une homologation."],
+["Dans un SWOT, les menaces relèvent du diagnostic :",["Interne","Externe","Financier","Juridique"],1,"Opportunités et menaces viennent de l’environnement."],
+["Racheter un concurrent est une croissance :",["Interne","Conjointe","Externe","Structurelle"],2,"Acquisition = croissance externe."],
+["Pour Herzberg, un salaire correct est surtout un facteur :",["De motivation","D’hygiène","De croissance","Stratégique"],1,"Il évite l’insatisfaction sans motiver durablement."]]}};
+const E={1:{t:"Kaliko, bougies artisanales",s:"Léa et son associé lancent Kaliko, qui fabrique et vend en ligne des bougies artisanales. Un concurrent à bas prix vient d’arriver sur le marché. Le fournisseur de cire n’a pas livré à la date prévue au contrat. Léa hésite aussi entre fabriquer elle-même ses emballages ou les confier à un prestataire.",q:[["Économie","Présentez deux barrières à l’entrée pouvant protéger Kaliko du nouveau concurrent.","Une barrière à l’entrée limite l’arrivée de concurrents. Exemples : la notoriété de la marque et la fidélité des clients ; la protection d’un nom ou d’un logo par une marque déposée (INPI) ; les économies d’échelle ; l’accès aux circuits de distribution. Application : Kaliko peut s’appuyer sur sa marque et sa clientèle fidèle, difficiles à copier rapidement."],["Droit","Quelle responsabilité Kaliko peut-elle engager contre le fournisseur ? Quelles conditions doivent être réunies ?","Il s’agit de la responsabilité civile contractuelle (art. 1231-1 C. civ.), car le retard est une inexécution du contrat. Conditions : une inexécution du contrat, un préjudice (production retardée, ventes perdues) et un lien de causalité entre les deux. Kaliko peut demander des dommages-intérêts, selon les clauses du contrat (pénalités, force majeure)."],["Management","Présentez un argument pour « faire » et un pour « faire faire » les emballages.","Faire : meilleur contrôle de la qualité et du savoir-faire, mais investissements et coûts fixes. Faire faire (impartition) : souplesse, coûts variables, concentration sur le cœur de métier, mais dépendance envers le prestataire. Conclusion : pour une jeune entreprise, l’impartition limite le capital à engager, si le prestataire est fiable."]]},2:{t:"Kaliko se développe",s:"Deux ans plus tard, Kaliko vend sur son site et collecte les e-mails et l’historique d’achats de ses clients pour sa newsletter. Pour les soldes de janvier, Léa veut embaucher une vendeuse. Elle envisage aussi, soit d’ouvrir une boutique physique, soit de s’associer à une marque de bien-être.",q:[["Numérique et droit","Quelles obligations Kaliko doit-elle respecter pour utiliser les données de ses clients ?","Le RGPD s’applique, sous le contrôle de la CNIL. Kaliko doit : définir une finalité précise (newsletter), recueillir le consentement ou justifier une base légale, informer les clients, ne collecter que les données utiles, limiter leur durée de conservation, les sécuriser et respecter les droits d’accès, de rectification, d’opposition et d’effacement. En cas de manquement, la CNIL peut sanctionner."],["Droit du travail","Quel contrat Léa peut-elle conclure pour les soldes ? Peut-elle l’utiliser pour pourvoir durablement un poste lié à l’activité normale ?","Un CDD est possible pour un accroissement temporaire d’activité (soldes). En revanche, un CDD ne peut pas servir à pourvoir durablement un emploi lié à l’activité normale et permanente de l’entreprise (art. L1242-1 C. trav.). Sa durée est limitée (18 mois en principe, renouvellement compris). En cas d’irrégularité, le contrat peut être requalifié en CDI."],["Stratégie","Identifiez les modalités de croissance envisagées et proposez un critère pour choisir.","Ouvrir une boutique est une croissance interne (organique) ; s’associer à une marque est une croissance conjointe (partenariat). Critères : ressources financières disponibles, niveau de risque, rapidité, maîtrise de l’activité, cohérence avec le diagnostic (forces et faiblesses de Kaliko). Conclusion argumentée : le partenariat est moins coûteux et plus rapide, mais Kaliko garde moins de contrôle."]]}};
+let Y=1,M="n",i=0,flip=false,sc=0,ans=null;
+const $=s=>document.querySelector(s);
+function nav(){
+$("#yr").innerHTML=[1,2].map(y=>`<button class="${y==Y?"on":""}" onclick="Y=${y};i=0;flip=false;sc=0;ans=null;draw()">${y==1?"1re":"2e"} année</button>`).join("");
+$("#md").innerHTML=[["n","Notions"],["f","Cartes"],["z","Quiz"],["e","Examen"]].map(([k,l])=>`<button class="${k==M?"on":""}" onclick="M='${k}';i=0;flip=false;sc=0;ans=null;draw()">${l}</button>`).join("")}
+function draw(){nav();const d=D[Y][M],a=$("#app");
+if(M=="e"){const c=E[Y];a.innerHTML=`<div class="card"><div class="tag">Étude de cas fictive · format E3</div><b>${c.t}</b><p>${c.s}</p><p class="mut">Méthode : notion, application au cas, conclusion. Rédige ta réponse avant d’ouvrir la correction.</p></div>`+c.q.map((x,k)=>`<div class="card"><div class="tag">${x[0]}</div><p><b>${k+1}. ${x[1]}</b></p><details><summary>Voir la correction</summary><p>${x[2]}</p></details></div>`).join("");return}
+if(M=="n"){a.innerHTML=d.map(x=>`<div class="card"><div class="tag">${x[0]}</div><b>${x[1]}</b><p>${x[2]}</p></div>`).join("");return}
+if(M=="f"){const c=d[i];a.innerHTML=`<div class="mut">Carte ${i+1}/${d.length}</div><div class="card fc" onclick="flip=!flip;draw()"><div class="tag">${flip?"Réponse":"Question"}</div><p><b>${flip?c[1]:c[0]}</b></p><div class="mut">Touche pour retourner</div></div><div class="row"><button onclick="i=(i-1+${d.length})%${d.length};flip=false;draw()">←</button><button onclick="i=(i+1)%${d.length};flip=false;draw()">→</button></div>`;return}
+if(i>=d.length){a.innerHTML=`<div class="card"><b>Score : ${sc}/${d.length}</b><p>${sc>=5?"Excellent !":sc>=3?"Bien, continue à réviser.":"Relis les notions puis réessaie."}</p></div><button onclick="i=0;sc=0;ans=null;draw()">Recommencer</button>`;return}
+const q=d[i];a.innerHTML=`<div class="mut">Question ${i+1}/${d.length}</div><div class="card"><b>${q[0]}</b></div>`+q[1].map((o,k)=>`<button class="opt ${ans!==null?(k==q[2]?"ok":k==ans?"ko":""):""}" ${ans!==null?"disabled":""} onclick="pick(${k})">${o}</button>`).join("")+(ans!==null?`<div class="card mut">${q[3]}</div><button onclick="i++;ans=null;draw()">Suivant</button>`:"")}
+function pick(k){ans=k;if(k==D[Y].z[i][2])sc++;draw()}
+draw();
+</script></body></html>
